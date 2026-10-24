@@ -1,0 +1,46 @@
+name: attendlog
+x-web: &web
+  build: .
+  environment:
+    DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-attendlog}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/${POSTGRES_DB:-attendlog}
+  depends_on:
+    db:
+      condition: service_healthy
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-attendlog}
+      POSTGRES_USER: ${POSTGRES_USER:-attendlog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  migrate:
+    <<: *web
+    command: [/opt/venv/bin/alembic, upgrade, head]
+    restart: "no"
+
+  web:
+    <<: *web
+    ports:
+      - '127.0.0.1:${ATTENDLOG_PORT:-8000}:8000'
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, /opt/venv/bin/python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=4)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  database:

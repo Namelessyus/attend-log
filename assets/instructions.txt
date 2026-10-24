@@ -1,0 +1,111 @@
+examples given in terms of a college for now i also want to keep it open for other places like offices gyms etc but for now i want to keep it focused on college
+
+APP NAME: AttendLog
+
+using Incremental Model
+
+admin  
+management/ department  
+creates classes like suppose English class Nepali class  
+then assigns/register, edit, delete, add and replace teachers to those class like English teacher Nepali teacher  
+they can edit, delete, view these classes and their information ie graphs deleting should be soft deleting  
+passwords will be in hash form  
+admins will be able to register teachers and keep them in classes  
+teachers will get the name and email that is kept in database from admin so they can login and enter their classes
+
+teacher  
+teachers will login using the name and email from the admin  
+teachers will be kept in classes by admins  
+for the students to get to the class a code will be used  
+English teacher suppose can now view the list of their students edit, kick out students  
+teachers will have long terms website sessions for the AttendLog website and can stay logged in for around 10 days  
+it will be used in the teachers local server so the teacher have to be around for the attendance to be done so students don't do their attendance from outside the class aka bunking  
+teachers wont be able to see the passwords of the students as it will be in hash form  
+teachers will have forgot password and change password
+
+teacher will have an attendance service which stays running so that attendance can be marked during the class. This will help prevent students from marking attendance from outside the classroom  
+teachers can keep a time limit for how long the attendance is open  
+for example if the class is from 9 to 10 the teacher can keep the attendance open from 9 to 9:10. Students who scan within the first 10 minutes will be marked present, while students who scan after the first 10 minutes but before attendance closes will be marked late  
+after the attendance window closes, students who have not checked in will be considered absent for that class date  
+the teacher can enable an optional check-out feature when they need to estimate how long a student stayed in class. Check-out will be disabled by default, so students normally only need to scan once 
+the checkout is fully on teacher to enable its not default 
+if check-out is enabled, the teacher can open a check-out window near the end of the class. The system will calculate the estimated time between check-in and check-out  
+if a student does not check out when check-out is enabled, their attendance duration will be incomplete and will not automatically count as full credit hours  
+First scan during the attendance session = check-in. If optional check-out is enabled, a later scan during the check-out window = check-out  
+the screen will show "Already marked" if a student tries to mark the same attendance multiple times
+
+-register server student will register information and their face and the teachers have to accept the registration for the student to be in the class  
+students when registering need to get an approval from their teachers to get registered into their classes  
+for simple view teachers will have a page where all these registered students pop up  
+teachers can open the information one by one and decide to approve or reject the approval of students  
+Can a teacher correct a wrong attendance record? yes, teachers can correct wrong attendance records for their assigned classes
+teacher can reopen attendance, extend the deadline, or manually mark a student present
+
+student  
+so normal students will 1st come to landing page  
+they will have to register their face with their information  
+the OTP will be sent to verify the emails of respective students for authentication  
+this will make them an account  
+students will then take the codes the teachers provided to enter different classes  
+when one enters these codes the information and face info will go to the teachers  
+for the teachers approval to enter these classes  
+if a student is kicked out they have to send the approval again to be back in class  
+students can only see their own graphs of their attendances not of other students  
+students will have long terms website sessions for the AttendLog website and can stay logged in for around 10 days  
+i need to have at least 5 students for the demo and out of that 1 of the registration has to be on spot  
+students will have forgot password and change password
+
+system  
+creates graphs for all students that shows the chart of the students being absent, present or late  
+this can be seen by admin, student, teachers all, but students can only see their own attendance graphs  
+the classes will be in boxes which are movable by dragging around  
+everything will have soft deleting and classes will be able to be recovered if deleted  
+accounts can be recovered if deleted  
+anyone before login they will be in the landing page and wont be able to enter unless logged in  
+screen will show "Already marked" if a student tries to mark attendance multiple times for the same attendance session  
+Absent is NOT stored. A record is saved only when someone checks in. Absent = an approved student in the class who has no attendance record for that scheduled class date after the attendance window closes  
+students who scan after the attendance window closes will see "Timed out" and will be considered absent if they have not already checked in  
+account can be recovered if deleted
+A student might join both English and Nepali. Their attendance must be tracked separately for each class.
+for example google classroom how a teacher student can see different classes and be in different classes thats the basic picture i have in mind for the format
+admins can recover teachers accounts and students need to be verified from teacher 
+Restoring an account should not automatically restore its access to every class.
+6. What happens to historical attendance?
+If a teacher removes a student, or an admin deletes a class, old attendance records should normally remain available in historical reports.
+
+-how to know who is admin or teacher  
+their information and email will already be kept in the database  
+the name and email will be provided by the admins to login  
+the system will use role-based access to determine whether someone is an admin, teacher or student
+
+Basic informations  
+as i will need teachers acc to be open to do attendance i will prolly need to open teachers account in one browser and open student account in another for demo  
+ui should be adjustable for both website and mobile screens  
+the attendance service and main web application can run as part of the same Docker-based project  
+for the demo, at least 5 student accounts are needed, and one student registration must be completed on the spot  
+attendance should only be marked for scheduled class dates, so students are not marked absent on days when no attendance was scheduled
+Class-code security: Prevent duplicate join requests and let teachers change a code if it gets shared outside the class.
+Email verification:OTP remains valid for 30 mins and limit repeated verification attempts.
+10-day sessions: Keep users logged in conveniently, but make sure logout, password changes, and account deactivation invalidate their sessions appropriately.
+
+
+
+for later after completing the basics from the above  
+Working hours: check-in and check-out time, with total hours calculated when optional check-out is enabled  
+Blink check: helps prevent someone from holding up a photo  
+Email alerts for repeated absence  
+Per-subject or per-lecture attendance (needs a Subject/Session entity, left out on purpose)  
+light and dark mode
+
+
+tabular manner 
+Situation	Expected result
+Student scans within the on-time window	Present
+Student scans after the on-time deadline but before closing	Late
+Student never checks in by closing	Absent, calculated by the system
+Student scans after attendance closes	Show Timed out
+Check-out is disabled	One scan is enough
+Check-out is enabled, but the student misses it	Attendance duration is incomplete
+Teacher corrects a record	Save the correction and update the relevant graphs
+
+When check-out is enabled, the system must distinguish the check-in window from the check-out window. Otherwise, it could mistake the second scan for a duplicate

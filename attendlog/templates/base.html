@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#160F0C">
+  <meta name="description" content="AttendLog — face recognition attendance for your classroom.">
+  <title>{% block title %}AttendLog — Your face is the sign-in sheet{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/space-grotesk-400.ttf') }}" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/space-grotesk-700.ttf') }}" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% block content %}{% endblock %}
+</body>
+</html>

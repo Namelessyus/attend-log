@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+  <header class="wrap site-header">
+    <a class="wordmark" href="{{ url_for('landing') }}" aria-label="AttendLog home">AttendLog</a>
+    <a class="button button-outline nav-login" href="{{ url_for('landing', access='login') }}#access-notice" data-access="login">Admin login</a>
+  </header>
+  <main id="main">
+  <div class="hero-background">
+    <section class="wrap hero" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <h1 id="hero-heading">Your face is the<br class="desktop-break"> sign-in sheet</h1>
+        <p>face recognition attendance system that automatically identifies<br class="wide-break"> people through a webcam and records their attendance.</p>
+        <div class="actions">
+          <a class="button" href="{{ url_for('landing', access='attendance') }}#access-notice" data-access="attendance">Start live attendance</a>
+          <a class="button button-outline" href="#how-it-works">How it works</a>
+        </div>
+      </div>
+      <figure class="camera" aria-label="Illustration of the AttendLog scanner, showing a sample face. This is not a live camera.">
+        <div class="camera-body" aria-hidden="true"></div>
+        <div class="camera-face" aria-hidden="true"></div>
+        <div class="camera-frame" aria-hidden="true"></div>
+        <div class="scan-line" aria-hidden="true"></div>
+        <figcaption class="camera-name">Anushma Shakya</figcaption>
+      </figure>
+    </section>
+</div>
+    <section class="process section-rule" id="how-it-works" aria-labelledby="process-heading">
+      <div class="wrap process-wrap">
+        <h2 id="process-heading">How the Scan Works</h2>
+        <ol class="pipeline">
+          <li><span>Browser</span><h3>Capture</h3><p>The webcam frame is sent to the Flask server.</p></li>
+          <li><span>Detection</span><h3>Find</h3><p>HOG locates the face in the picture.</p></li>
+          <li><span>Encoding</span><h3>Describe</h3><p>A pre-trained network turns it into 128 numbers.</p></li>
+          <li><span>Matching</span><h3>Decide</h3><p>Nearest saved face under 0.6 is marked. Otherwise “Unknown”.</p></li>
+        </ol>
+      </div>
+    </section>
+    <section class="showcase section-rule" aria-label="Examples of AttendLog features and attendance records">
+      <div class="wrap showcase-grid">
+        <div class="feature-stack">
+          <article class="feature-card places">
+            <h2>Any place, any label</h2>
+            <p>Use “person” and “department” for</p>
+            <ul class="labels" aria-label="Example settings"><li>Office</li><li>School</li><li>Gym</li></ul>
+          </article>
+          <article class="feature-card weekly">
+            <h2>This week</h2>
+            <div class="bars" role="img" aria-label="Illustrative weekly attendance chart, not live records">
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <p>Dashboard shows present vs absent<br class="wide-break"> and who is falling behind.</p>
+          </article>
+        </div>
+        <figure class="register" aria-label="Sample attendance register, not live student data">
+          <figcaption><span>Today's register</span><small>Engineering</small></figcaption>
+          <table>
+            <caption class="visually-hidden">Illustrative attendance records</caption>
+            <thead class="visually-hidden"><tr><th scope="col">Person</th><th scope="col">Time</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Sita Rai<small>Checked in</small></th><td>08:52</td><td class="tag">On time</td></tr>
+              <tr><th scope="row">Bikash Thapa<small>Checked in</small></th><td>09:04</td><td class="tag">On time</td></tr>
+              <tr class="register-current"><th scope="row">Anita Gurung<small>Just recognized</small></th><td>09:31</td><td class="tag">Late</td></tr>
+              <tr><th scope="row">Ramesh Karki<small>Checked out</small></th><td>8h 12m</td><td class="tag">Done</td></tr>
+            </tbody>
+          </table>
+          <p class="register-note">Unknown faces are shown as “Unknown” and never marked.</p>
+        </figure>
+      </div>
+    </section>
+    <section class="closing section-rule" aria-labelledby="closing-heading">
+      <div class="wrap">
+        <h2 id="closing-heading">Ready to stop calling roll?</h2>
+        <a class="button" href="{{ url_for('landing', access='dashboard') }}#access-notice" data-access="dashboard">Open dashboard</a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer section-rule">AttendLog · 2026</footer>
+
+  <dialog id="access-notice" class="access-dialog" aria-labelledby="access-title" aria-describedby="access-message" {% if access_notice %}open data-initial-access="{{ access_notice }}"{% endif %}>
+    <h2 id="access-title">{% if access_notice == 'attendance' %}Live attendance{% elif access_notice == 'dashboard' %}Dashboard{% else %}Admin login{% endif %}</h2>
+    <p id="access-message">{% if access_notice == 'attendance' %}Live attendance is not available yet.{% elif access_notice == 'dashboard' %}The dashboard is not available yet.{% else %}Sign-in is not available yet.{% endif %}</p>
+    <form method="dialog"><button class="button" type="submit">Back to AttendLog</button></form>
+    <noscript><a class="notice-return" href="{{ url_for('landing') }}">Return to the landing page</a></noscript>
+  </dialog>
+{% endblock %}

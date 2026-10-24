@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} — AttendLog{% endblock %}
+{% block content %}
+<header class="wrap site-header"><a class="wordmark" href="{{ url_for('landing') }}">AttendLog</a></header>
+<main id="main" class="wrap error-page"><h1>{{ title }}</h1><p>{{ message }}</p><a class="button" href="{{ url_for('landing') }}">Back to AttendLog</a></main>
+{% endblock %}

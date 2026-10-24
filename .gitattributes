@@ -1,0 +1,3 @@
+# Preserve imported references and upstream license files byte-for-byte.
+assets/** -text -whitespace
+attendlog/static/fonts/*-OFL.txt -text -whitespace

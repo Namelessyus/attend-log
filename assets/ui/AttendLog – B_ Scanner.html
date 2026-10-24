@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AttendLog – Scanner</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--dove:#C0BAB3;--choc:#52423D;--rock:#887D77;--sienna:#391214;--rasp:#160F0C;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--rasp);color:var(--dove);font:17px/1.6 "Space Grotesk",system-ui,sans-serif;background-image:radial-gradient(60% 45% at 50% 22%,#391214 0,transparent 70%);background-repeat:no-repeat}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+nav b{font-size:20px;letter-spacing:.02em}
+.btn{display:inline-block;background:var(--dove);color:var(--rasp);text-decoration:none;padding:13px 26px;border-radius:999px;font-weight:700}
+.btn.out{background:none;color:var(--dove);border:1px solid var(--rock)}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--dove);outline-offset:3px}
+.hero{text-align:center;padding:40px 0 80px}
+h1{font-size:clamp(38px,6.4vw,76px);line-height:1.02;letter-spacing:-.03em;margin:0 auto 20px;max-width:14ch;font-weight:700}
+.hero p{max-width:50ch;margin:0 auto 30px;color:var(--rock);font-size:19px}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cam{position:relative;width:min(340px,80vw);aspect-ratio:3/4;margin:64px auto 0;border-radius:20px;background:linear-gradient(180deg,#2a1b1a,#160F0C);border:1px solid var(--choc);overflow:hidden}
+.face{position:absolute;left:50%;top:46%;width:46%;aspect-ratio:3/4;transform:translate(-50%,-50%);border-radius:48% 48% 44% 44%;background:radial-gradient(circle at 50% 35%,#6b5a53,#3a2c28 75%)}
+.body{position:absolute;left:50%;bottom:-18%;width:86%;height:34%;transform:translateX(-50%);border-radius:50% 50% 0 0;background:#3a2c28}
+.box{position:absolute;left:24%;top:16%;width:52%;height:60%;border:2px solid var(--dove);border-radius:6px}
+.box::before,.box::after{content:"";position:absolute;width:20px;height:20px;border:4px solid var(--dove)}
+.box::before{left:-4px;top:-4px;border-right:0;border-bottom:0}
+.box::after{right:-4px;bottom:-4px;border-left:0;border-top:0}
+.scan{position:absolute;left:0;right:0;height:3px;background:var(--dove);box-shadow:0 0 22px 6px rgba(192,186,179,.45);animation:sweep 3.2s ease-in-out infinite}
+@keyframes sweep{0%,100%{top:12%}50%{top:80%}}
+.chip{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(22,15,12,.86);border:1px solid var(--rock);border-radius:12px;padding:10px 14px;text-align:left;font-size:14px}
+.chip b{display:block;font-size:16px}.chip span{color:var(--rock)}
+.sec{padding:80px 0;border-top:1px solid var(--choc)}
+h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.02em;margin:0 0 40px;max-width:22ch;line-height:1.1}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pipe div{background:var(--sienna);border:1px solid var(--choc);border-radius:14px;padding:22px}
+.pipe div:nth-child(even){background:#22181500;border-color:var(--choc)}
+.pipe h3{margin:0 0 6px;font-size:20px}.pipe p{margin:0;color:var(--rock);font-size:15px}
+.pipe i{display:block;font-style:normal;color:var(--rock);font-size:14px;margin-bottom:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+dl{margin:0}dt{font-weight:700;font-size:20px;margin-top:22px}dt:first-child{margin-top:0}dd{margin:4px 0 0;color:var(--rock)}
+.num{background:var(--dove);color:var(--rasp);border-radius:18px;padding:32px}
+.num strong{display:block;font-size:64px;line-height:1;letter-spacing:-.04em}
+.num p{margin:8px 0 22px;color:var(--choc)}
+.num p:last-child{margin-bottom:0}
+.end{text-align:center;padding:90px 0}
+.end h2{margin:0 auto 28px}
+footer{padding:22px 0 30px;color:var(--rock);font-size:14px;text-align:center;border-top:1px solid var(--choc)}
+@media(max-width:820px){.pipe{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}}
+@media(max-width:480px){.pipe{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.scan{animation:none;top:50%}}
+</style></head><body>
+<div class="wrap"><nav><b>AttendLog</b><a class="btn out" href="#">Admin login</a></nav>
+<section class="hero"><h1>Your face is the sign-in sheet</h1>
+<p>A webcam, a browser and a local database. AttendLog spots who just walked in and logs their time on its own.</p>
+<div class="row"><a class="btn" href="#">Start live attendance</a><a class="btn out" href="#flow">How it works</a></div>
+<div class="cam" aria-label="Illustration of a face being scanned"><div class="body"></div><div class="face"></div><div class="box"></div><div class="scan"></div>
+<div class="chip"><b>Sita Rai</b><span>Match distance 0.41 · Checked in 08:52</span></div></div></section></div>
+<section class="sec" id="flow"><div class="wrap"><h2>From camera frame to database row</h2>
+<div class="pipe">
+<div><i>Browser</i><h3>Capture</h3><p>The webcam frame is sent to the Flask server.</p></div>
+<div><i>Detection</i><h3>Find</h3><p>HOG locates the face in the picture.</p></div>
+<div><i>Encoding</i><h3>Describe</h3><p>A pre-trained network turns it into 128 numbers.</p></div>
+<div><i>Matching</i><h3>Decide</h3><p>Nearest saved face under 0.6 is marked. Otherwise "Unknown".</p></div></div></div></section>
+<section class="sec"><div class="wrap split"><div><h2>Built to be trusted</h2>
+<dl><dt>No outside services</dt><dd>Face detection and matching run offline, inside Docker.</dd>
+<dt>No double counting</dt><dd>PostgreSQL allows one record per person per day.</dd>
+<dt>Consent first</dt><dd>We store encodings, not a gallery of faces, and only for people who agreed.</dd></dl></div>
+<div class="num"><strong>0.6</strong><p>Distance threshold. Below it, it's a match.</p><strong>0</strong><p>Online APIs called.</p><strong>2</strong><p>Containers: web and database.</p></div></div></section>
+<div class="wrap"><section class="end"><h2>Ready to stop calling roll?</h2><a class="btn" href="#">Open dashboard</a></section></div>
+<footer>AttendLog · Lighting and camera angle affect accuracy.</footer>
+</body></html>
