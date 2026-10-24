@@ -3,6 +3,16 @@ x-web: &web
   build: .
   environment:
     DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-attendlog}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/${POSTGRES_DB:-attendlog}
+    ATTENDLOG_SECRET_KEY: ${ATTENDLOG_SECRET_KEY:?Set ATTENDLOG_SECRET_KEY in .env}
+    ATTENDLOG_PUBLIC_URL: ${ATTENDLOG_PUBLIC_URL:-http://127.0.0.1:${ATTENDLOG_PORT:-8000}}
+    ATTENDLOG_MAIL_OUTBOX: /app/runtime/mail
+    ATTENDLOG_COOKIE_SECURE: ${ATTENDLOG_COOKIE_SECURE:-0}
+    ATTENDLOG_MAIL_BACKEND: ${ATTENDLOG_MAIL_BACKEND:-file}
+    ATTENDLOG_MAIL_FROM: ${ATTENDLOG_MAIL_FROM:-AttendLog <noreply@attendlog.local>}
+    ATTENDLOG_SMTP_HOST: ${ATTENDLOG_SMTP_HOST:-}
+    ATTENDLOG_SMTP_PORT: ${ATTENDLOG_SMTP_PORT:-587}
+    ATTENDLOG_SMTP_USER: ${ATTENDLOG_SMTP_USER:-}
+    ATTENDLOG_SMTP_PASSWORD: ${ATTENDLOG_SMTP_PASSWORD:-}
   depends_on:
     db:
       condition: service_healthy
@@ -29,6 +39,8 @@ services:
 
   web:
     <<: *web
+    volumes:
+      - mail:/app/runtime/mail
     ports:
       - '127.0.0.1:${ATTENDLOG_PORT:-8000}:8000'
     depends_on:
@@ -44,3 +56,4 @@ services:
 
 volumes:
   database:
+  mail:

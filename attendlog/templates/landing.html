@@ -2,7 +2,7 @@
 {% block content %}
   <header class="wrap site-header">
     <a class="wordmark" href="{{ url_for('landing') }}" aria-label="AttendLog home">AttendLog</a>
-    <a class="button button-outline nav-login" href="{{ url_for('landing', access='login') }}#access-notice" data-access="login">Admin login</a>
+    <a class="button button-outline nav-login" href="{{ url_for('auth.login') }}">Admin login</a>
   </header>
   <main id="main">
   <div class="hero-background">
@@ -70,7 +70,7 @@
     <section class="closing section-rule" aria-labelledby="closing-heading">
       <div class="wrap">
         <h2 id="closing-heading">Ready to stop calling roll?</h2>
-        <a class="button" href="{{ url_for('landing', access='dashboard') }}#access-notice" data-access="dashboard">Open dashboard</a>
+        <a class="button" href="{{ url_for('auth.dashboard') }}">Open dashboard</a>
       </div>
     </section>
   </main>

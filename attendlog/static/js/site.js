@@ -1,15 +1,12 @@
 "use strict";
 
-// These three future features are deliberately unavailable in the visual baseline.
-// Never request a camera or pretend to authenticate from a landing-page sample.
+// The scanner illustration does not request a camera or mark attendance.
 const dialog = document.querySelector("#access-notice");
 if (dialog && typeof dialog.showModal === "function") {
   const title = dialog.querySelector("#access-title");
   const message = dialog.querySelector("#access-message");
   const notices = {
-    login: ["Admin login", "Sign-in is not available yet."],
     attendance: ["Live attendance", "Live attendance is not available yet."],
-    dashboard: ["Dashboard", "The dashboard is not available yet."],
   };
   let trigger = null;
   function openNotice(kind) {

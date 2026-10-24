@@ -1,6 +1,6 @@
 # AttendLog build and weekly work plan
 
-Prepared 24 October 2026. Status: phase-one foundation and landing-page baseline implemented and locally validated on 24 October 2026. Docker execution is pending because Docker is not installed; see PHASE_1_VALIDATION.md. The user clarified an eight-Friday release schedule at 17:00 Asia/Kathmandu, with development completed in advance.
+Prepared 24 October 2026. Status: phase-one foundation and phase-two login/accounts/roles implemented and locally validated on 24 October 2026; student signup, OTP, and recovery remain the next release. Docker execution is pending because Docker is not installed; see PHASE_1_VALIDATION.md. The user clarified an eight-Friday release schedule at 17:00 Asia/Kathmandu, with development completed in advance.
 
 ## Source material and strict visual contract
 
@@ -52,7 +52,7 @@ College attendance first, with a data model that can later accommodate offices a
 
 These proposals preserve the requested UI. Resolve them before implementing the affected behavior.
 
-1. **Names/emails are identification, not sufficient login credentials.** Admin-created teachers should receive a one-time activation link to set a password. Name remains display data; email plus password is used for login. Bootstrap the first administrator through a local management command, not public registration.
+1. **Names/emails are identification, not sufficient login credentials.** Phase two implements admin-created teachers receiving a one-time activation link to set a password (the implementation assumption for this authorized login/accounts increment). Name remains display data; email plus password is used for login. Bootstrap the first administrator through a local management command, not public registration.
 2. **The time example closes attendance at 09:10 but also allows late scans after 09:10.** Use three explicit values: opens_at, on_time_until, closes_at. Example for a 09:00–10:00 class: opens 09:00, on-time deadline 09:10, check-in closes at a later teacher-selected time. Exact boundary convention proposed: opens_at <= t <= on_time_until is present; on_time_until < t < closes_at is late; t >= closes_at is timed out. Validate the ordering on the server.
 3. **The HTML says one row per person per day, while the requirements allow multiple classes.** Use a unique (student_id, class_session_id) check-in record. A scheduled session entity is required in the basic release; only more elaborate subject/timetable management is deferred.
 4. **The HTML implies the next scan always checks out.** The written specification takes priority: check-out is optional, requires its own window, and otherwise repeated scans are duplicates. Preserve reference appearance while proposing truthful copy changes for approval.
@@ -104,7 +104,7 @@ Runs remain 17:00 Asia/Kathmandu, 30 October–18 December 2026. Local scheduled
 
 - Confirm teacher-controlled kiosk capture versus attendance from each student's phone.
 - Confirm the distinct on-time deadline and final check-in closing time.
-- Confirm the teacher activation/password flow and which student information is mandatory.
+- Teacher activation uses the implemented one-time link and password flow; confirm mandatory information for public student registration before its increment.
 - Confirm whether a limited review/profile photo is retained for enrollment approval.
 - Choose email delivery for real OTP messages and whether phones need local HTTPS in the demo.
 - Approve behavior-correct wording where the reference HTML's example copy conflicts with the specified system.

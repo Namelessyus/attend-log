@@ -1,0 +1,33 @@
+{% extends 'auth/layout.html' %}
+{% block page_title %}Accounts{% endblock %}
+{% block account_content %}
+<div class="workspace-heading"><div><p class="eyebrow">ADMINISTRATOR WORKSPACE</p><h1>Accounts</h1></div><span class="role-badge">Teacher access</span></div>
+<p class="workspace-description">Invite teachers and manage account access. Class membership is managed separately.</p>
+<div class="accounts-grid">
+  <section class="account-panel invite-panel"><h2>Invite a teacher</h2><p class="panel-description">They'll set their own password using a one-time invitation.</p>
+    {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+    <form method="post" class="account-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="name">Full name</label><input id="name" name="name" autocomplete="name" maxlength="120" value="{{ request.form.get('name', '') }}" required>
+      <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" value="{{ request.form.get('email', '') }}" placeholder="teacher@college.edu" required>
+      <button type="submit" class="button">Invite teacher</button>
+    </form>
+    <p class="form-footnote">Invitations expire after 48 hours. Creating an account does not assign it to a class.</p>
+  </section>
+  <section class="account-panel directory-panel" aria-labelledby="directory-heading"><h2 id="directory-heading">Account directory</h2>
+    <ul class="account-directory">
+    {% for user in users %}
+      <li><div class="directory-identity"><h3>{{ user.display_name }}</h3><p>{{ user.email }}</p><span class="account-status">{{ user.role|capitalize }} · {{ 'Deactivated' if user.deleted_at else ('Active' if user.password_hash and user.email_verified_at else 'Pending activation') }}</span></div>
+      {% if user.role != 'admin' %}<div class="directory-actions">
+        {% if not user.deleted_at %}
+        {% if user.role == 'teacher' and not user.password_hash %}<form action="{{ url_for('auth.manage_account',user_id=user.id,action='resend') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="small-action">Resend invite</button></form>{% endif %}
+        <form action="{{ url_for('auth.manage_account',user_id=user.id,action='deactivate') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="small-action">Deactivate</button></form>
+        {% elif user.role == 'teacher' %}<form action="{{ url_for('auth.manage_account',user_id=user.id,action='restore') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="small-action">Restore account</button></form>
+        {% else %}<span class="field-help">Teacher verification required to restore.</span>{% endif %}
+      </div>{% endif %}</li>
+    {% endfor %}
+    </ul>
+    <nav class="directory-pages" aria-label="Account pages">{% if page > 1 %}<a href="{{ url_for('auth.accounts',page=page-1) }}">Previous</a>{% endif %}<span>Page {{ page }}</span>{% if more %}<a href="{{ url_for('auth.accounts',page=page+1) }}">Next</a>{% endif %}</nav>
+  </section>
+</div>
+{% endblock %}

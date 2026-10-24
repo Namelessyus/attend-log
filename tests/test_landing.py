@@ -44,7 +44,12 @@ def test_landing_and_every_linked_asset_resolve_locally():
         assert not parts.netloc, f"External runtime dependency: {url}"
         if parts.path:
             asset = browser.get(url)
-            assert asset.status_code == 200, url
+            if parts.path == "/login":
+                assert asset.status_code == 503  # Explicit no-database preview mode.
+            elif parts.path == "/dashboard":
+                assert asset.status_code == 302
+            else:
+                assert asset.status_code == 200, url
     font_css = browser.get("/static/fonts/fonts.css").text
     import re
     for font in re.findall(r"url\(\./([^)]+)\)", font_css):
@@ -56,9 +61,7 @@ def test_landing_and_every_linked_asset_resolve_locally():
 def test_unavailable_features_are_honest_and_have_noscript_fallbacks():
     browser = client()
     for kind, message in [
-        ("login", "Sign-in is not available yet."),
         ("attendance", "Live attendance is not available yet."),
-        ("dashboard", "The dashboard is not available yet."),
     ]:
         response = browser.get("/?access=" + kind)
         assert response.status_code == 200
@@ -68,6 +71,8 @@ def test_unavailable_features_are_honest_and_have_noscript_fallbacks():
     assert "<dialog" in browser.get("/?access=%3Cscript%3E").text
     assert "data-initial-access=" not in browser.get("/?access=%3Cscript%3E").text
     assert "not live student data" in browser.get("/").text
+    assert browser.get("/?access=login").location == "/login"
+    assert browser.get("/?access=dashboard").location == "/dashboard"
 
 
 def test_private_sources_are_not_served_and_errors_are_navigable():

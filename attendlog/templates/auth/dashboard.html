@@ -1,0 +1,14 @@
+{% extends 'auth/layout.html' %}
+{% block page_title %}Workspace{% endblock %}
+{% block account_content %}
+<div class="workspace-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h1>Welcome, {{ g.user.display_name }}.</h1></div><span class="role-badge">{{ 'Administrator' if g.user.role == 'admin' else g.user.role|capitalize }}</span></div>
+<p class="workspace-description">{% if g.user.role == 'admin' %}Manage your institution's accounts and teacher access.{% elif g.user.role == 'teacher' %}Your assigned classes and attendance belong here.{% else %}Your classes and personal attendance belong here.{% endif %}</p>
+<div class="workspace-grid">
+  <section class="account-panel empty-state"><p class="eyebrow">CLASSES</p><h2>No classes yet</h2><p>Your classes will appear here once they are set up{% if g.user.role != 'admin' %} and assigned to you{% endif %}.</p></section>
+  <section class="account-panel workspace-links"><p class="eyebrow">ACCOUNT ACCESS</p><h2>Everything in its place.</h2>
+    {% if g.user.role == 'admin' %}<a class="text-link" href="{{ url_for('auth.accounts') }}">Manage teacher accounts <span aria-hidden="true">↗</span></a>{% endif %}
+    <a class="text-link" href="{{ url_for('auth.account') }}">Your profile and password <span aria-hidden="true">↗</span></a>
+    <p class="form-footnote">Signed in as {{ g.user.email }}.</p>
+  </section>
+</div>
+{% endblock %}

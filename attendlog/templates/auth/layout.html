@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body_class %}account-body{% endblock %}
+{% block title %}{% block page_title %}Your account{% endblock %} — AttendLog{% endblock %}
+{% block content %}
+<header class="wrap site-header">
+  <a class="wordmark" href="{{ url_for('landing') }}" aria-label="AttendLog home">AttendLog</a>
+  {% if g.user %}
+  <form action="{{ url_for('auth.logout') }}" method="post" class="inline-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="button button-outline nav-login">Sign out</button>
+  </form>
+  {% else %}<a class="button button-outline nav-login" href="{{ url_for('landing') }}">Back to home</a>{% endif %}
+</header>
+{% if g.user %}
+<nav class="wrap account-nav" aria-label="Your account">
+  <a href="{{ url_for('auth.dashboard') }}" {% if request.endpoint == 'auth.dashboard' %}aria-current="page"{% endif %}>Workspace</a>
+  {% if g.user.role == 'admin' %}<a href="{{ url_for('auth.accounts') }}" {% if request.endpoint == 'auth.accounts' %}aria-current="page"{% endif %}>Accounts</a>{% endif %}
+  <a href="{{ url_for('auth.account') }}" {% if request.endpoint == 'auth.account' %}aria-current="page"{% endif %}>My account</a>
+</nav>
+{% endif %}
+<main id="main" class="wrap account-main">
+  {% with messages = get_flashed_messages() %}{% for message in messages %}<p class="form-notice" role="status">{{ message }}</p>{% endfor %}{% endwith %}
+  {% block account_content %}{% endblock %}
+</main>
+<footer class="site-footer section-rule">AttendLog · 2026</footer>
+{% endblock %}
