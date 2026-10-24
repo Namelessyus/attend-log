@@ -1,6 +1,6 @@
 # AttendLog build and weekly work plan
 
-Prepared 24 October 2026. Status: phase-one foundation and landing-page baseline implemented and locally validated on 24 October 2026. Docker execution is pending because Docker is not installed; see PHASE_1_VALIDATION.md. The user approved genuine weekly work on eight Fridays at 17:00 Asia/Kathmandu.
+Prepared 24 October 2026. Status: phase-one foundation and landing-page baseline implemented and locally validated on 24 October 2026. Docker execution is pending because Docker is not installed; see PHASE_1_VALIDATION.md. The user clarified an eight-Friday release schedule at 17:00 Asia/Kathmandu, with development completed in advance.
 
 ## Source material and strict visual contract
 
@@ -92,34 +92,13 @@ Technical sources: [MDN getUserMedia](https://developer.mozilla.org/en-US/docs/W
 
 This is an order of work, not a requirement to delay completed changes until a later Friday. We can complete multiple increments today and commit them when actually done. Do not invent later work dates.
 
-## Eight genuine Friday work sessions
+## Eight Friday releases — clarified schedule
 
-Time: 17:00 Nepal time (Asia/Kathmandu). Each run uses the current implementation; if a planned increment is already finished, validate it and address actual defects rather than recreating it.
+The user clarified on 24 October 2026: finish development in advance, then publish eight prepared increments over the following eight Fridays. This supersedes the earlier weekly review-work plan. Development commits retain their actual timestamps; release dates are publication dates.
 
-| Run | Friday | Focus |
-| --- | --- | --- |
-| 1 | 30 October 2026 | Fresh setup, design/reference fidelity, migrations and deployment |
-| 2 | 6 November 2026 | Login, activation, OTP, session expiry/revocation, role isolation |
-| 3 | 13 November 2026 | Classes, teacher assignments, enrollment requests, code rotation, restore |
-| 4 | 20 November 2026 | Scheduled sessions, deadline boundaries, duplicates, absence computation |
-| 5 | 27 November 2026 | Registration, camera/recognition accuracy, unknown and ambiguous faces |
-| 6 | 4 December 2026 | Optional check-out, corrections, graphs and historical accuracy |
-| 7 | 11 December 2026 | Full multi-role demo, responsive UI, recovery and reproducible setup |
-| 8 | 18 December 2026 | Regression review, final fixes, handover and remaining limitations |
+The phase-one baseline `d10b0e9` was already pushed on 24 October. Preserve it. Further work stays on local `codex/development` until scheduled release. See `docs/RELEASE_PLAN.md` for dates, release scope, and exact commit IDs as they become ready. The automation must never push the full development branch or a later increment early.
 
-Each run should:
-
-1. Confirm the canonical checkout, expected remote, Git identity, and a safe working-tree state. Read AGENTS.md, this plan, recent changes, and any updated user decisions.
-2. Perform the week's real review/testing. If the relevant feature has not been implemented, document the actual blocker rather than inventing a pass or starting a large unapproved feature build.
-3. Make focused fixes within the agreed requirements, preserving design/colors. Run meaningful targeted checks. Never alter the immutable references to make a comparison pass.
-4. Record useful actual findings and exact commands/results in `docs/weekly/YYYY-MM-DD.md`. State unavailable tests or blocked dependencies accurately. Do not create repetitive filler solely to produce a commit.
-5. Commit only the automation's reviewed changes with the real current timestamp, using the configured Anushma identity. Never include unrelated user changes, secrets, or face data. Push the resulting commit to the configured origin only when the branch/remote are verified and the push is a normal fast-forward.
-6. If there are no meaningful changes, do not force a commit. If the tree is unsafe, a push fails, or permissions block access, preserve work and report the exact blocker; do not force-push, overwrite user work, or bypass approval.
-7. Notify on completed work, useful findings, failure, or required user input. Stay quiet when nothing has changed and there is no action to take. Stop after the eighth run, 18 December 2026; do not continue the series beyond that date.
-
-The user approved this truthful weekly-work scope on 24 October 2026. There is no guarantee of exactly eight commits: useful review/fix/documentation work determines whether a commit is warranted.
-
-Local scheduled work requires this laptop to be on, the desktop app running, the checkout available, and required filesystem/network permissions. GitHub updates also need network access and the configured SSH key. If a run is missed, report the miss and use the actual timestamp for any later recovery run. Official setup guidance: https://learn.chatgpt.com/docs/automations.
+Runs remain 17:00 Asia/Kathmandu, 30 October–18 December 2026. Local scheduled work requires the laptop on, the desktop app running, the checkout available, and filesystem/network access. Missing commit assignments, failing validation, or remote divergence block publication and require an explicit report. No date manipulation or automatic force-push is permitted.
 
 ## Open decisions before the affected implementation
 
